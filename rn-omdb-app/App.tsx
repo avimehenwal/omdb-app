@@ -12,9 +12,11 @@ const HomeScreen = ({ navigation }) => {
     setText(newText)
   }
 
-  const onPressFunction = (selectedItem) => {
+  const onPressFunction = (selectedItem: IMovies) => {
     console.log('Pressed selectedItem = ', selectedItem.Title)
-    navigation.navigate('Details')
+    navigation.navigate('Details', {
+      imdbId: selectedItem.imdbID,
+    })
   }
 
   const renderItem = ({ item }) => (
@@ -50,23 +52,12 @@ const HomeScreen = ({ navigation }) => {
         onChangeText={onChangeText}
         value={text}
       />
-      <Text>{backend.searchByTitle(text)}</Text>
+
+      {/* status widgets */}
       {loading ? <Text>"Loading"</Text> : <Text>"Done"</Text>}
+      <Text>{backend.searchByTitle(text)}</Text>
 
       <ScrollView>
-
-        <TouchableHighlight onPress={() => onPressFunction(mockMovie)}>
-          <View style={styles.item}>
-            <Text style={styles.title}>{mockMovie.Title}</Text>
-            <Text>{mockMovie.Type}</Text>
-            <Text>{mockMovie.Year}</Text>
-            {mockMovie.Poster === "N/A" &&
-              <Text style={styles.poster}>N/A</Text> ||
-              <Image style={styles.poster} source={mockMovie.Poster} />}
-            <Text>{mockMovie.imdbID}</Text>
-          </View>
-        </TouchableHighlight>
-
         <FlatList
           data={movies}
           renderItem={renderItem}
@@ -84,10 +75,12 @@ const HomeScreen = ({ navigation }) => {
   );
 }
 
-function DetailScreen({ navigation }) {
+function DetailScreen({ navigation, route }) {
+  const { imdbId } = route.params;
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
+      <Text>IMDB ID = {JSON.stringify(imdbId)}</Text>
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );

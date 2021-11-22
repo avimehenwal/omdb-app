@@ -1,14 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Working on App</Text>
-      <StatusBar style="auto" />
-      <ShowMovies />
-    </View>
+    <SafeAreaView style={styles.safeContainer}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Omdb Sample App</Text>
+        <StatusBar style="auto" />
+        <ShowMovies />
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -24,21 +26,49 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    width: '80%'
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+  safeContainer: {
+    marginTop: 60,
+    flex: 1,
   },
 });
 
 export const ShowMovies = () => {
-  const [movies, setMovies] = React.useState<IMovies | null>(null);
+  const [movies, setMovies] = React.useState<IMovies[] | null>(null);
   const [text, setText] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
+
 
   const onChangeText = (newText: string) => {
     setText(newText)
   }
 
+  const renderItem: { item: IMovies } = ({ item }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{item.Title}</Text>
+      <Text>{item.Type}</Text>
+      <Text>{item.Year}</Text>
+      <Text>{item.Poster}</Text>
+      <Text>{item.imdbID}</Text>
+    </View>
+  );
+
   React.useEffect((): void => {
+    setLoading(true)
     backend.getMoviesByTitle(text).then(items => {
       if (items) {
         setMovies(items)
+        setLoading(false)
       }
     })
   }, [text])
@@ -51,8 +81,17 @@ export const ShowMovies = () => {
         value={text}
       />
       <Text>{backend.searchByTitle(text)}</Text>
-      <Text>{JSON.stringify(movies, null, 2)}</Text>
+      {loading ? <Text>"Loading"</Text> : <Text>"Done"</Text>}
+      <ScrollView>
+        <FlatList
+          data={movies}
+          renderItem={renderItem}
+          keyExtractor={item => item.Title}
+        />
+        <Text>{JSON.stringify(movies, null, 2)}</Text>
+      </ScrollView>
     </>
+
   )
 }
 
@@ -88,8 +127,8 @@ class OmdbAPI {
     try {
       const response = await fetch(this.url);
       const json = await response.json();
-      console.log(Object.keys(json))
-      return json
+      console.log(JSON.stringify(json, null, 2))
+      return json?.Search
     } catch (error) {
       console.error(error);
     }
@@ -98,3 +137,11 @@ class OmdbAPI {
 }
 
 const backend = new OmdbAPI()
+
+interface IMovies {
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Type: string;
+  Poster: string;
+}

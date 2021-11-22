@@ -122,7 +122,6 @@ export const ShowMovies = () => {
 
 type type = 'movie' | 'series' | 'episode'
 
-
 class OmdbAPI {
   type?: string
   _key?: string

@@ -53,10 +53,6 @@ const HomeScreen = ({ navigation }) => {
         value={text}
       />
 
-      {/* status widgets */}
-      {loading ? <Text>"Loading"</Text> : <Text>"Done"</Text>}
-      <Text>{backend.searchByTitle(text)}</Text>
-
       <ScrollView>
         <FlatList
           data={movies}
@@ -66,22 +62,55 @@ const HomeScreen = ({ navigation }) => {
         {/* <Text>{JSON.stringify(movies, null, 2)}</Text> */}
       </ScrollView>
 
-
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
+      {/* status widgets */}
+      {loading ? <Text>"Loading"</Text> : <Text>"Done"</Text>}
+      <Text>{backend.searchByTitle(text)}</Text>
     </View>
   );
 }
 
 function DetailScreen({ navigation, route }) {
-  const { imdbId } = route.params;
+  const { imdbId = 'tt0058590' } = route.params;
+  const [item, setItem] = React.useState<IMovies | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+
+  React.useEffect((): void => {
+    setLoading(true)
+    const url = `http://www.omdbapi.com/?apikey=968f91f7&i=${imdbId}`
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json)
+        setItem(json)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [])
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>
       <Text>IMDB ID = {JSON.stringify(imdbId)}</Text>
       <Button title="Go back" onPress={() => navigation.goBack()} />
+
+      <View style={styles.item}>
+        <Text style={styles.title}>{item?.Title}</Text>
+        <Text>{item?.Type}</Text>
+        <Text>{item?.Year}</Text>
+        {item?.Poster === "N/A" &&
+          <Text style={styles?.poster}>N/A</Text> ||
+          <Image style={styles?.poster} source={item?.Poster} />}
+        <Text>{item?.imdbID}</Text>
+        <Text>{JSON.stringify(item, null, 4)}</Text>
+      </View>
+
+      {/* status widgets */}
+      {loading ? <Text>"Loading"</Text> : <Text>"Done"</Text>}
+      {/* <Text>{backend.getMoviesById(imdbId)}</Text> */}
     </View>
   );
 }

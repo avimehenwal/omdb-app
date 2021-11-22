@@ -18,7 +18,17 @@ http://www.omdbapi.com/?i=tt3896198&apikey=968f91f7
 - Synthetic events are named differently `onChangeText`
 - How to handle heterogeneous Scroll? `ScrollView`
 - React Native provides the **Fetch API** for your networking needs.
+- Routing === Navigation via Stack data structure
+  - pass paramters to routes
 
 ## RN Components
 
 - StatusBar - show/hide status as a part of app
+
+## Issues
+
+safe area module not found
+
+```
+yarn add react-native-safe-area-view react-native-safe-area-context
+```

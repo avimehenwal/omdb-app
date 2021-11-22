@@ -28,7 +28,11 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   poster: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
   },
+  posterDetail: {
+    width: 200,
+    height: 200,
+  }
 });

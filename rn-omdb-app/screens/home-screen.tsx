@@ -23,13 +23,17 @@ export const HomeScreen = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Pressable onPress={() => onPressFunction(item)}>
-        <Text style={styles.title}>{item.Title}</Text>
-        <Text>{item.Type}</Text>
-        <Text>{item.Year}</Text>
-        {item.Poster === "N/A" &&
-          <Image style={styles.poster} source={require('../assets/default-image.png')} /> ||
-          <Image style={styles.poster} source={item.Poster} />}
-        <Text>{item.imdbID}</Text>
+        <View style={{ flexDirection: "row" }}>
+          {item.Poster === "N/A" &&
+            <Image style={styles.poster} source={require('../assets/default-image.png')} /> ||
+            <Image style={styles.poster} source={item.Poster} />}
+          <View style={{ paddingLeft: 32 }}>
+            <Text style={styles.title}>{item.Title}</Text>
+            <Text>{item.imdbID}</Text>
+            <Text>{item.Type}</Text>
+            <Text>{item.Year}</Text>
+          </View>
+        </View>
       </Pressable>
     </View>
   );

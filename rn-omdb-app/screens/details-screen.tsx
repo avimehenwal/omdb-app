@@ -32,14 +32,18 @@ export const DetailScreen = ({ navigation, route }) => {
 
       <ScrollView>
         <View style={styles.item}>
-          <Text style={styles.title}>{item?.Title}</Text>
-          <Text>{item?.Type}</Text>
-          <Text>{item?.Year}</Text>
-          {item?.Poster === "N/A" &&
-            <Text style={styles?.poster}>N/A</Text> ||
-            <Image style={styles?.poster} source={item?.Poster} />}
-          <Text>{item?.imdbID}</Text>
-          <Text>{JSON.stringify(item, null, 4)}</Text>
+          <View style={{ flexDirection: "row" }}>
+            {item?.Poster === "N/A" &&
+              <Image style={styles.posterDetail} source={require('../assets/default-image.png')} /> ||
+              <Image style={styles?.posterDetail} source={item?.Poster} />}
+            <View style={{ paddingLeft: 32 }}>
+              <Text style={styles.title}>{item?.Title}</Text>
+              <Text>{item?.Type}</Text>
+              <Text>{item?.Year}</Text>
+              <Text>{item?.imdbID}</Text>
+              <Text>{JSON.stringify(item, null, 4)}</Text>
+            </View>
+          </View>
         </View>
       </ScrollView >
 

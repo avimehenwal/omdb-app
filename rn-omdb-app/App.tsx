@@ -50,7 +50,7 @@ export const ShowMovies = () => {
         onChangeText={onChangeText}
         value={text}
       />
-      <Text>{text}</Text>
+      <Text>{backend.searchByTitle(text)}</Text>
       <Text>{JSON.stringify(movies, null, 2)}</Text>
     </>
   )
@@ -70,3 +70,26 @@ const getMoviesFromApi = async () => {
     console.error(error);
   }
 };
+
+type type = 'movie' | 'series' | 'episode'
+
+
+class OmdbAPI {
+  type?: string
+  _key?: string
+  base: string
+
+  constructor(type: type = 'movie', _key = '968f91f7') {
+    this.type = type
+    this._key = _key
+    this.base = `http://www.omdbapi.com/?apikey=${_key}&type=${type}`
+  }
+
+  searchByTitle = (searchText: string) => {
+    // trim spaces
+    const canonicalized = searchText.replace(/\s+/g, '');
+    return `${this.base}&s=${canonicalized}`
+  }
+}
+
+const backend = new OmdbAPI()

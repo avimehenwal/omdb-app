@@ -32,3 +32,5 @@ safe area module not found
 ```
 yarn add react-native-safe-area-view react-native-safe-area-context
 ```
+
+react-native-screens not found ?

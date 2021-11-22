@@ -27,7 +27,7 @@ export const HomeScreen = ({ navigation }) => {
         <Text>{item.Type}</Text>
         <Text>{item.Year}</Text>
         {item.Poster === "N/A" &&
-          <Text style={styles.poster}>N/A</Text> ||
+          <Image style={styles.poster} source={require('../assets/default-image.png')} /> ||
           <Image style={styles.poster} source={item.Poster} />}
         <Text>{item.imdbID}</Text>
       </Pressable>

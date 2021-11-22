@@ -29,19 +29,19 @@ const styles = StyleSheet.create({
 
 export const ShowMovies = () => {
   const [movies, setMovies] = React.useState<IMovies | null>(null);
-  const [text, setText] = React.useState("Useless Text");
+  const [text, setText] = React.useState<string>("");
 
   const onChangeText = (newText: string) => {
     setText(newText)
   }
 
   React.useEffect((): void => {
-    getMoviesFromApi().then(items => {
+    backend.getMoviesByTitle(text).then(items => {
       if (items) {
         setMovies(items)
       }
     })
-  }, [])
+  }, [text])
 
   return (
     <>
@@ -57,20 +57,6 @@ export const ShowMovies = () => {
 }
 
 
-const getMoviesFromApi = async () => {
-  const key = '968f91f7'
-  const url = `http://www.omdbapi.com/?i=tt3896198&apikey=${key}`
-
-  try {
-    const response = await fetch(url);
-    const json = await response.json();
-    console.log(Object.keys(json))
-    return json
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 type type = 'movie' | 'series' | 'episode'
 
 
@@ -78,18 +64,37 @@ class OmdbAPI {
   type?: string
   _key?: string
   base: string
+  url?: string
 
   constructor(type: type = 'movie', _key = '968f91f7') {
     this.type = type
     this._key = _key
+    this.url ?? `http://www.omdbapi.com/?i=tt3896198&apikey=${_key}`
     this.base = `http://www.omdbapi.com/?apikey=${_key}&type=${type}`
   }
 
   searchByTitle = (searchText: string) => {
     // trim spaces
     const canonicalized = searchText.replace(/\s+/g, '');
-    return `${this.base}&s=${canonicalized}`
+    this.url = `${this.base}&s=${canonicalized}`
+    return this.url
   }
+
+  getMoviesByTitle = async (searchText: string) => {
+    // trim spaces
+    const canonicalized = searchText.replace(/\s+/g, '');
+    this.url = `${this.base}&s=${canonicalized}`
+
+    try {
+      const response = await fetch(this.url);
+      const json = await response.json();
+      console.log(Object.keys(json))
+      return json
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 }
 
 const backend = new OmdbAPI()

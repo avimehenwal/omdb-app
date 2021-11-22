@@ -17,6 +17,7 @@ http://www.omdbapi.com/?i=tt3896198&apikey=968f91f7
 - Native components vs Core components (`View`, `Text`)
 - Synthetic events are named differently `onChangeText`
 - How to handle heterogeneous Scroll? `ScrollView`
+- React Native provides the **Fetch API** for your networking needs.
 
 ## RN Components
 

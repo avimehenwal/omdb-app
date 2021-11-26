@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { View, Text, Button, TextInput, StyleSheet, ScrollView, TouchableHighlight, Image, FlatList, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { HomeScreen } from './screens/home-screen';
 import { DetailScreen } from './screens/details-screen';
 

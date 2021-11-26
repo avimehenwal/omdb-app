@@ -58,14 +58,14 @@ export const HomeScreen = ({ navigation }) => {
         value={text}
       />
 
-      <ScrollView>
-        <FlatList
-          data={movies}
-          renderItem={renderItem}
-          keyExtractor={item => item.imdbID}
-        />
-        {/* <Text>{JSON.stringify(movies, null, 2)}</Text> */}
-      </ScrollView>
+      {/* <ScrollView> */}
+      <FlatList
+        data={movies}
+        renderItem={renderItem}
+        keyExtractor={item => item.imdbID}
+      />
+      {/* <Text>{JSON.stringify(movies, null, 2)}</Text> */}
+      {/* </ScrollView> */}
 
       {/* status widgets */}
       {loading ? <Text>"Loading"</Text> : <Text>"Done"</Text>}

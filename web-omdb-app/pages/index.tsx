@@ -3,8 +3,18 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { config } from '../omdb-app/app-config'
+import { GetMoviesByTitle } from '../omdb-app/GetMoviesByTitle'
+import React from 'react'
 
 const Home: NextPage = () => {
+  const [searchText, setSearchText] = React.useState<string | null>(null);
+
+  const handleSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value)
+  }
+
+  console.log(searchText)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,7 +24,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        everything major goes in here !!!
+        <label>Search Movies by Title</label>
+        <input type="text" name="movie-title" onChange={(event) => handleSearchTerm(event)} />
+        <div>Now searching for ... {searchText}</div>
+
+        {/* Null Safety */}
+        {searchText && <GetMoviesByTitle searchText={searchText} />}
       </main>
 
       <footer className={styles.footer}>

@@ -8,9 +8,14 @@ import React from 'react'
 
 const Home: NextPage = () => {
   const [searchText, setSearchText] = React.useState<string | null>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   const handleSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value)
+  }
+
+  const handleReset = () => {
+    setSearchText(null)
   }
 
   console.log(searchText)
@@ -25,7 +30,18 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <label>Search Movies by Title</label>
-        <input type="text" name="movie-title" onChange={(event) => handleSearchTerm(event)} />
+        <input
+          type="text"
+          name="movie-title"
+          value={searchText ? searchText : ""}
+          onChange={(event) => handleSearchTerm(event)}
+        />
+        <input
+          type="reset"
+          defaultValue="Reset"
+          value="Clear"
+          onClick={handleReset}
+        />
         <div>Now searching for ... {searchText}</div>
 
         {/* Null Safety */}

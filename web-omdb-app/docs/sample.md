@@ -1,0 +1,5 @@
+- [ ] searching should return a list of movies
+- [ ] seaches with illegal special chars should display feedback
+- [ ] save last 3 searches in local storage
+  - search history suggestions
+- [ ] react hooks

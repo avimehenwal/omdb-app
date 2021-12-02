@@ -10,5 +10,6 @@ export const config = {
   },
   footer: {
     text: "Some footer text"
-  }
+  },
+  default_poster: "/default-image.png"
 }

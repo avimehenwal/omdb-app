@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { config } from '../omdb-app/app-config'
 import { GetMoviesByTitle } from '../omdb-app/GetMoviesByTitle'
@@ -8,7 +7,6 @@ import React from 'react'
 
 const Home: NextPage = () => {
   const [searchText, setSearchText] = React.useState<string | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null)
 
   const handleSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value)
@@ -17,8 +15,6 @@ const Home: NextPage = () => {
   const handleReset = () => {
     setSearchText(null)
   }
-
-  console.log(searchText)
 
   return (
     <div className={styles.container}>
@@ -29,29 +25,30 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <label>Search Movies by Title</label>
-        <input
-          type="text"
-          name="movie-title"
-          value={searchText ? searchText : ""}
-          onChange={(event) => handleSearchTerm(event)}
-        />
-        <input
-          type="reset"
-          defaultValue="Reset"
-          value="Clear"
-          onClick={handleReset}
-        />
-        <div>Now searching for ... {searchText}</div>
+        <div className={styles.card}>
+          <h3>Search By Title</h3>
+          <label>Enter movie title</label>
+          <input
+            type="text"
+            name="movie-title"
+            value={searchText ? searchText : ""}
+            onChange={(event) => handleSearchTerm(event)}
+          />
+          <input
+            type="reset"
+            value="Clear"
+            onClick={handleReset}
+          />
+        </div>
 
         {/* Null Safety */}
         {searchText && <GetMoviesByTitle searchText={searchText} />}
-      </main>
+      </main >
 
       <footer className={styles.footer}>
         <p>{config.footer.text}</p>
       </footer>
-    </div>
+    </div >
   )
 }
 

@@ -150,3 +150,9 @@
   font-size: small;
   color: grey;
 }
+
+.submit {
+  background-color: dodgerblue;
+  color: #fff;
+  cursor: pointer;
+}

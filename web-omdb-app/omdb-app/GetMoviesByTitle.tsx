@@ -14,7 +14,7 @@ export const GetMoviesByTitle: React.FC<Props> = ({ searchText }) => {
 
   return (
     <div className={styles.card2}>
-      <h3><strong>{data.totalResults && data.totalResults}</strong> Search Results</h3>
+      <h3><strong>{data?.totalResults && data.totalResults}</strong> Search Results</h3>
       {data?.Search ? <MoviesList movies={data.Search} /> : <pre>{JSON.stringify(data, null, 4)}</pre>}
       <pre>{JSON.stringify(error, null, 4)}</pre>
     </div>

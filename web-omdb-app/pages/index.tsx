@@ -4,12 +4,15 @@ import styles from '../styles/Home.module.css'
 import { config } from '../omdb-app/app-config'
 import { GetMoviesByTitle } from '../omdb-app/GetMoviesByTitle'
 import React from 'react'
+import { useLocalStorage } from 'react-use'
 
 const Home: NextPage = () => {
   const [searchText, setSearchText] = React.useState<string | null>(null);
+  const [searches, setSearches, remove] = useLocalStorage('search-history', '')
 
   const handleSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value)
+    setSearches(event.target.value)
   }
 
   const handleReset = () => {

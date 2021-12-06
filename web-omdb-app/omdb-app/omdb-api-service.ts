@@ -24,9 +24,9 @@ export class OmdbAPI {
     this.base = `http://www.omdbapi.com/?apikey=${this._key}`
   }
 
-  searchMovieByTitleURL = (searchText: string) => {
+  searchMovieByTitleURL = (searchText: string | null) => {
     // trim spaces, as API doesnt accepts whitespaces in search term
-    const canonicalized = searchText.replace(/\s+/g, '');
+    const canonicalized = searchText?.replace(/\s+/g, '');
     const type: type = 'movie'
     const url = `${this.base}&type=${type}&s=${canonicalized}`
     console.log(url);

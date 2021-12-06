@@ -56,7 +56,7 @@ export const MoviesList: React.FC<{ movies: IMovies[] }> = ({ movies }) => {
   )
 }
 
-const fetcherCB = (url) => (
+const fetcherCB = (url: string) => (
   fetch(url).then((res) => res.json())
 )
 
